@@ -9,9 +9,13 @@ public class Bullet : MonoBehaviour {
             Destroy(gameObject, 0.05f);
         }
         if (collision.tag == "Enemy") {
-            collision.GetComponent<EnemyHealth>().hp--;
+            float enemyHp = collision.GetComponent<Enemy>().hp;
+            float playerDamage = FindObjectOfType<Health>().damage;
+            enemyHp = enemyHp - playerDamage;
             Destroy(gameObject);
-            if (collision.GetComponent<EnemyHealth>().hp == 0) {
+            collision.GetComponent<Enemy>().hp = enemyHp;
+
+            if (enemyHp <= 0) {
                 Destroy(collision.gameObject);
             }
         }
